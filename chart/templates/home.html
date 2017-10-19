@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+<script>
+{% block jquery %}
+
+var endpoint = '/api/chart/data/'
+var defaultData = []
+var labels = [];
+var tablelist = [];
+var dbfiles = [];
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels = data.labels
+        defaultData = data.default
+		tablelist = data.tables
+		dbfiles = data.dbfiles
+        setSelect()
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+function setSelect(){
+	<!-- console.log(tablelist) -->
+	var myDiv = document.getElementById("myDiv");
+	var selectList = document.getElementById("mySelect");
+	selectList.setAttribute("onchange", "form.submit()");
+	selectList.setAttribute("id", "mySelect");
+	selectList.setAttribute("name", "mySelect");
+	myDiv.appendChild(selectList);
+	for (var i = 0; i < dbfiles.length; i++) {
+		var option = document.createElement("option");
+		option.setAttribute("value", dbfiles[i]);
+		option.text = dbfiles[i];
+		selectList.appendChild(option);
+	}
+}
+// var ctx = document.getElementById("myChart");
+
+{% endblock %}
+</script>
+
+{% block content %}
+
+<div class='row'>
+    <div class='col-sm-12' url-endpoint='{% url "api-data" %}'>
+        <h1>Home</h1>
+		<form action="api/chart/" method="get">
+		<div id="myDiv">Append here</div>
+		<select id="mySelect">
+			<option value="Choose db file">Choose db file</option>
+		</select>
+		</form>
+    </div>
+</div>
+
+<script>
+function jsFunction(){
+  var myselect = document.getElementById("mySelect");
+  alert(myselect.options[myselect.selectedIndex].value);
+}
+</script>
+
+{% endblock content %}
+
+
