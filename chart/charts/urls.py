@@ -17,11 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 
 # from .views import HomeView, get_data, ChartData
-from .views import HomeView, DataView, ChartData
+from .views import HomeView, DataView, ChartData, get_bg
 
 urlpatterns = [
     url(r'^api/chart/$', HomeView.as_view(), name='home'),
     url(r'^$', DataView.as_view(), name='api-data'),
+    url(r'^bg/$', get_bg, name='background'),
     url(r'^api/chart/data/$', ChartData.as_view()),
     url(r'^admin/', admin.site.urls),
 

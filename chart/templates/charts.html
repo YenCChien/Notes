@@ -2,11 +2,11 @@
 
 <script>
 {% block jquery %}
-
 var endpoint = '/api/chart/data/'
 var defaultData = []
 var labels = [];
 var tablelist = [];
+var table = ""
 $.ajax({
     method: "GET",
     url: endpoint,
@@ -14,6 +14,7 @@ $.ajax({
         labels = data.labels
         defaultData = data.default
 		tablelist = data.tables
+		table = data.table
         setChart()
     },
     error: function(error_data){
@@ -36,7 +37,7 @@ function setChart(){
 		option.text = tablelist[i];
 		selectList.appendChild(option);
 	}
-	
+	$('#myTable').val(table)
     var ctx = document.getElementById("myChart");
     var ctx2 = document.getElementById("myChart2");
     var myChart = new Chart(ctx2, {

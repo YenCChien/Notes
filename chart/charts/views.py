@@ -8,22 +8,18 @@ from . import SQLite
 from os import listdir
 from os.path import isfile, join
 import json
-
-table = ""
-db = ""
+table,db = "",""
 # print('-----{}'format(os.getcwd()))
 User = get_user_model()
 class HomeView(View):
     def get(self, request, *args, **kwargs):
-        table = ""
+        global db,table
         if 'mySelect' in request.GET:
-            global db
             db = request.GET['mySelect']
-            print(request.GET['mySelect'])
+            print('select ---- {}'.format(request.GET['mySelect']))
         elif 'myTable' in request.GET:
-            global table
             table = request.GET['myTable']
-            print(request.GET['myTable'])
+            print('table ---- {}'.format(request.GET['myTable']))
         return render(request, 'charts.html', {})
 
 def get_data(request, *args, **kwargs):
@@ -32,6 +28,11 @@ def get_data(request, *args, **kwargs):
         "mySelect": request.GET['mySelect'],
     }
     return JsonResponse(data) # http response
+
+def get_bg(request):
+    context = {}
+    template = "bg.html"
+    return render(request, template, context) # http response
 
 class DataView(View):
     def get(self, request, *args, **kwargs):
@@ -52,31 +53,23 @@ class ChartData(APIView):
             sql = SQLite.SQLite('C:/Users/nick/chart/sqlite/{}'.format(db),'ABCDEFG')
             sql.connect()
             sql.cursor()
-            # if not table:
-            # print("'{}'".format(table))
-            # table = "'PHY21-ABCDEFG-201710131155'"
-            # print(table)
             alltable = sql.table()
             for tname in alltable:
                 tablelist.append(tname[1])
-            # tablelist=json.dumps(tablelist)
             if table:
-                table = "'{}'".format(table)
-                alldata = sql.select(table)
+                gettable = "'"+table+"'"
+                alldata = sql.select(gettable)
                 for i in alldata:
                     labels.append(i[0])
                     default_items.append(i[4])
             sql.close()
-        # print(labels)
-        # print('-----------{}'.format(default_items))
-        # labels = ["Users", "Blue", "Yellow", "Green", "Purple", "Orange"]
-        # default_items = [2.2, 23, 2, 3, 12, 2]
         data = {
             "dbfiles": dbfiles,
             "labels": labels,
             "default": default_items,
             "tables": tablelist,
+            "table": table,
         }
-        
+        table = ""
         return Response(data)
 

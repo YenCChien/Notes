@@ -40,7 +40,6 @@ function setSelect(){
 	}
 }
 // var ctx = document.getElementById("myChart");
-
 {% endblock %}
 </script>
 
@@ -50,20 +49,29 @@ function setSelect(){
     <div class='col-sm-12' url-endpoint='{% url "api-data" %}'>
         <h1>Home</h1>
 		<form action="api/chart/" method="get">
-		<div id="myDiv">Append here</div>
+		<div>
+		<div id="myDiv">Append here </div>
 		<select id="mySelect">
 			<option value="Choose db file">Choose db file</option>
 		</select>
+		</div>
 		</form>
     </div>
 </div>
 
-<script>
-function jsFunction(){
-  var myselect = document.getElementById("mySelect");
-  alert(myselect.options[myselect.selectedIndex].value);
-}
-</script>
+<style>
+div div,
+	body {
+	  width:100px;
+      height:50px;
+      margin:0 auto;
+      color:##ff;
+      font-size:16px;
+      line-height: 50px;
+      text-align: center;
+      background:#c00;
+	}
+</style>
 
 {% endblock content %}
 
