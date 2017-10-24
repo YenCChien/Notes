@@ -16,6 +16,7 @@ $.ajax({
         defaultData = data.default
 		tablelist = data.tables
 		dbfiles = data.dbfiles
+		num = data.num
         setSelect()
     },
     error: function(error_data){
@@ -25,7 +26,8 @@ $.ajax({
 })
 
 function setSelect(){
-	<!-- console.log(tablelist) -->
+	console.log(tablelist)
+	console.log(dbfiles)
 	var myDiv = document.getElementById("myDiv");
 	var selectList = document.getElementById("mySelect");
 	selectList.setAttribute("onchange", "form.submit()");
@@ -38,6 +40,40 @@ function setSelect(){
 		option.text = dbfiles[i];
 		selectList.appendChild(option);
 	}
+	var ctx = document.getElementById("myChart");
+	var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: dbfiles,
+        datasets: [{
+            label: '# of Votes',
+            data: num,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+		title: {
+            display: true,
+            text: 'DB Files'
+        }
+	}
+});
 }
 // var ctx = document.getElementById("myChart");
 {% endblock %}
@@ -50,28 +86,31 @@ function setSelect(){
         <h1>Home</h1>
 		<form action="api/chart/" method="get">
 		<div>
-		<div id="myDiv">Append here </div>
+		<div id="myDiv"><b>File Name: </b></div>
 		<select id="mySelect">
 			<option value="Choose db file">Choose db file</option>
 		</select>
+		<div class='col-sm-12'>
+            <canvas id="myChart" width="400" height="150"></canvas>
+        </div>
 		</div>
 		</form>
     </div>
 </div>
 
-<style>
-div div,
-	body {
-	  width:100px;
-      height:50px;
-      margin:0 auto;
-      color:##ff;
-      font-size:16px;
-      line-height: 50px;
-      text-align: center;
-      background:#c00;
-	}
-</style>
+<!-- <style> -->
+<!-- div div, -->
+	<!-- body { -->
+	  <!-- width:100px; -->
+      <!-- height:50px; -->
+      <!-- margin:0 auto; -->
+      <!-- color:##ff; -->
+      <!-- font-size:16px; -->
+      <!-- line-height: 50px; -->
+      <!-- text-align: center; -->
+      <!-- background:#c00; -->
+	<!-- } -->
+<!-- </style> -->
 
 {% endblock content %}
 

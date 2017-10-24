@@ -1,15 +1,14 @@
 import sqlite3, time
 class SQLite():
-    def __init__(self,model,mac):
+    def __init__(self,model):
         self.model = model
-        self.mac = mac
     def connect(self):
         self.conn = sqlite3.connect(self.model)
     def cursor(self):
         self.cur = self.conn.cursor()
-    def create(self,item,statement):
+    def create(self,item,id,statement):
         currtime = time.strftime("%Y%m%d%H%M", time.localtime())
-        tablename = "'"+item+'-'+self.mac+'-'+currtime+"'"
+        tablename = "'"+item+'-'+id+'-'+currtime+"'"
         self.cur.execute('CREATE TABLE {0}{1};'.format(tablename,statement))
         # namelist = []
         # for x in range(len(statement.split(','))):
@@ -41,12 +40,18 @@ class SQLite():
         for x in values:
            datalist.append(x)
         return datalist
+    def getcolname(self,table):
+        rowlist = []
+        for row in self.cur.execute("PRAGMA table_info({})".format(table)):
+            rowlist.append(row[1])
+        return rowlist
     def close(self):
         self.conn.close()
 
-# a = SQLite('CODA4589','ABCDEFG')
-# a.connect()
-# a.cursor()
+a = SQLite('C:/Users/nick/chart/sqlite/CODA4589')
+a.connect()
+a.cursor()
+a.getcolname("'PHY21-ABCDEFG-201710131159'")
 # statement = '''(Frequency     INT    NOT NULL,\
        # MOD            TEXT   NOT NULL,\
        # REPORT         INT    NOT NULL,\

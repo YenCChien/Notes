@@ -42,15 +42,19 @@ class ChartData(APIView):
     authentication_classes = []
     permission_classes = []
     def get(self, request, format=None):
+        tablenum = []
         mypath = 'C:/Users/nick/chart/sqlite'
         dbfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+        for f in dbfiles:
+            tablenum.append(1)
         qs_count = User.objects.all().count()
         labels = []
         default_items = []
         tablelist = []
+        columnlist = []
         if db:
             global table, db
-            sql = SQLite.SQLite('C:/Users/nick/chart/sqlite/{}'.format(db),'ABCDEFG')
+            sql = SQLite.SQLite('C:/Users/nick/chart/sqlite/{}'.format(db))
             sql.connect()
             sql.cursor()
             alltable = sql.table()
@@ -61,7 +65,9 @@ class ChartData(APIView):
                 alldata = sql.select(gettable)
                 for i in alldata:
                     labels.append(i[0])
-                    default_items.append(i[4])
+                    default_items.append(i)
+                columnlist = sql.getcolname(gettable)
+
             sql.close()
         data = {
             "dbfiles": dbfiles,
@@ -69,6 +75,8 @@ class ChartData(APIView):
             "default": default_items,
             "tables": tablelist,
             "table": table,
+            "num": tablenum,
+            "columns": columnlist,
         }
         table = ""
         return Response(data)
