@@ -73,7 +73,24 @@ function setSelect(){
             text: 'DB Files'
         }
 	}
-});
+})
+$(document).ready(
+  function() {
+    var canvas = document.getElementById("myChart");
+    canvas.onclick = function(evt) {
+      var activePoints = myChart.getElementsAtEvent(evt);
+      if (activePoints[0]) {
+        var chartData = activePoints[0]['_chart'].config.data;
+        var idx = activePoints[0]['_index'];
+        var label = chartData.labels[idx];
+        var value = chartData.datasets[0].data[idx];
+		window.location.href="/api/chart/?mySelect=" + label
+        <!-- console.log(url); -->
+        <!-- alert(url); -->
+      }
+    };
+  }
+);
 }
 // var ctx = document.getElementById("myChart");
 {% endblock %}
@@ -81,37 +98,29 @@ function setSelect(){
 
 {% block content %}
 
-<div class='row'>
-    <div class='col-sm-12' url-endpoint='{% url "api-data" %}'>
-        <h1>Home</h1>
-		<form action="api/chart/" method="get">
-		<div>
-		<div id="myDiv"><b>File Name: </b></div>
+<div class='col-sm-12' url-endpoint='{% url "api-data" %}'>
+    <h1>Home</h1>
+	<form action="api/chart/" method="get">
+	<div id="myDiv"><b>File Name: </b></div>
+	<div class="styled-select">
 		<select id="mySelect">
 			<option value="Choose db file">Choose db file</option>
 		</select>
-		<div class='col-sm-12'>
-            <canvas id="myChart" width="400" height="150"></canvas>
-        </div>
-		</div>
-		</form>
+	</div>
+	<style>
+	div div div select {
+		width: 200px;
+		height: 26px;
+		overflow: hidden;
+		background: #ddd;
+		border: 1px solid #ccc;
+   }
+	</style>
+	<div class='col-sm-12'>
+        <canvas id="myChart" width="300" height="150"></canvas>
     </div>
+	</form>
 </div>
-
-<!-- <style> -->
-<!-- div div, -->
-	<!-- body { -->
-	  <!-- width:100px; -->
-      <!-- height:50px; -->
-      <!-- margin:0 auto; -->
-      <!-- color:##ff; -->
-      <!-- font-size:16px; -->
-      <!-- line-height: 50px; -->
-      <!-- text-align: center; -->
-      <!-- background:#c00; -->
-	<!-- } -->
-<!-- </style> -->
-
 {% endblock content %}
 
 

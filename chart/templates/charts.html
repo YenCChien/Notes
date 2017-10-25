@@ -4,7 +4,9 @@
 {% block jquery %}
 var endpoint = '/api/chart/data/'
 var defaultData = []
-var datas = []
+var offset = []
+var measure = []
+var report = []
 var labels = []
 var tablelist = []
 var dbtable = ""
@@ -17,6 +19,7 @@ $.ajax({
 		tablelist = data.tables
 		dbtable = data.table
 		columns = data.columns
+		db = data.db
         setChart()
     },
     error: function(error_data){
@@ -39,26 +42,22 @@ function setChart(){
 		selectList.appendChild(option);
 	}
 	$('#myTable').val(dbtable)
+	document.getElementById("model").innerHTML = db
     var ctx = document.getElementById("myChart");
     var ctx2 = document.getElementById("myChart2");
 	for (var i = 0; i < defaultData.length; i++){
-		datas.push(defaultData[i][4])
+		offset.push(defaultData[i][4])
+		measure.push(defaultData[i][3])
+		report.push(defaultData[i][2])
 	}
     var myChart = new Chart(ctx2, {
     type: 'line',
     data: {
         labels: labels,
         datasets: [{
-            label: 'offset',
-            data: datas,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
+            label: 'DELTA',
+            data: offset,
+            backgroundColor: '#FF0000',
             borderColor: [
                 'rgba(255,99,132,1)',
                 'rgba(54, 162, 235, 1)',
@@ -67,13 +66,39 @@ function setChart(){
                 'rgba(153, 102, 255, 1)',
                 'rgba(255, 159, 64, 1)'
             ],
+			fill: false,
+            borderWidth: 2,
+        },{
+            label: 'MEASURE',
+            data: measure,
+            backgroundColor: '#8B4513',
+            borderColor: '#D2691E',
+			fill: false,
+            borderWidth: 2
+        },{
+            label: 'REPORT',
+            data: report,
+            backgroundColor: '#00FF00',
+            borderColor: '#66FF66',
+			fill: false,
             borderWidth: 2
         }]
     },
     options: {
+		legend: {
+        display: true
+      },
 		title: {
             display: true,
             text: dbtable,
+        },
+		scales: {
+            yAxes: [{
+                ticks: {id: 'y-axis-1', type: 'linear', position: 'left', ticks: { min: 0, max: 50 , }}
+            }],
+			pointLabels :{
+				fontStyle: 'italic',
+			}
         }
     }
 });
@@ -107,10 +132,16 @@ function setChart(){
 <!-- }); -->
 
 //Build an array containing Customer records.
+<!-- columns.push(['Test Result']) -->
 var customers = new Array();
 customers.push(columns);
 for (var i = 0; i < defaultData.length; i++){
-		customers.push(defaultData[i])
+	<!-- if (defaultData[i].slice(-1) <= 2 && defaultData[i].slice(-1) >= -2) { -->
+		<!-- defaultData[i].push(['PASS']) -->
+	<!-- } else { -->
+		<!-- defaultData[i].push(['FAIL']) -->
+	<!-- } -->
+	customers.push(defaultData[i])
 }
 
 //Create a HTML Table element.
@@ -149,30 +180,49 @@ dvTable.appendChild(table);
 
 // var ctx = document.getElementById("myChart");
 {% endblock %}
+
 </script>
 
 {% block content %}
 
 <div class='row'>
     <div class='col-sm-12' url-endpoint='{% url "api-data" %}'>
-        <h1>Result</h1>
+        <h1 id='model'></h1>
         <!-- <div class='col-sm-12'> -->
             <!-- <canvas id="myChart" width="400" height="150"></canvas> -->
         <!-- </div> -->
 		<form action="" method="get">
-		<div id="myDiv"><b>Table: </b></div>
+		<div class="myDiv" id="myDiv"><b>Table: </b></div>
 		<br/><b>________________________________________________________________________________________________________________________________________________ </b><br/><br/>
         <div class='col-sm-12'>
-            <canvas id="myChart2" width="600" height="150"></canvas>
+            <canvas id="myChart2" width="500" height="150"></canvas>
 			<br/><br/><b>TEST SUMMARY </b><br/><br/>
         </div>
 		</form>
     </div>
 </div>
+
+<style>
+div div div select {
+	width: 250px;
+	height: 26px;
+	overflow: hidden;
+	background: #ddd;
+	border: 1px solid #ccc;
+   }
+</style>
+
 <center>
 <div id="dvTable"></div>
 </center>
+<div><br/><br/><button onclick="gohome()">Go Back</button><br/><br/></div>
 
+<script>
+function gohome()
+{
+window.location.href="/"
+}
+</script>
 {% endblock content %}
 
 

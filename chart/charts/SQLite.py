@@ -1,9 +1,9 @@
 import sqlite3, time
 class SQLite():
-    def __init__(self,model):
-        self.model = model
+    def __init__(self,name):
+        self.name = name
     def connect(self):
-        self.conn = sqlite3.connect(self.model)
+        self.conn = sqlite3.connect(self.name)
     def cursor(self):
         self.cur = self.conn.cursor()
     def create(self,item,id,statement):
@@ -48,10 +48,10 @@ class SQLite():
     def close(self):
         self.conn.close()
 
-a = SQLite('C:/Users/nick/chart/sqlite/CODA4589')
-a.connect()
-a.cursor()
-a.getcolname("'PHY21-ABCDEFG-201710131159'")
+# a = SQLite('C:/Users/nick/chart/sqlite/CODA4589')
+# a.connect()
+# a.cursor()
+# a.getcolname("'PHY21-ABCDEFG-201710131159'")
 # statement = '''(Frequency     INT    NOT NULL,\
        # MOD            TEXT   NOT NULL,\
        # REPORT         INT    NOT NULL,\
