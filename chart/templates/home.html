@@ -8,6 +8,8 @@ var defaultData = []
 var labels = [];
 var tablelist = [];
 var dbfiles = [];
+var background = [];
+var borderColor = [];
 $.ajax({
     method: "GET",
     url: endpoint,
@@ -24,10 +26,12 @@ $.ajax({
         console.log(error_data)
     }
 })
-
+            
 function setSelect(){
+    /*console.log(dbfiles.length)
+    console.log('rgba('+(Math.floor(Math.random() * 255) + 1)+','+(Math.floor(Math.random() * 255) + 1)+','+(Math.floor(Math.random() * 255) + 1)+','+'0.2)')
 	console.log(tablelist)
-	console.log(dbfiles)
+	console.log(dbfiles)*/
 	var myDiv = document.getElementById("myDiv");
 	var selectList = document.getElementById("mySelect");
 	selectList.setAttribute("onchange", "form.submit()");
@@ -39,31 +43,21 @@ function setSelect(){
 		option.setAttribute("value", dbfiles[i]);
 		option.text = dbfiles[i];
 		selectList.appendChild(option);
+        var color = 'rgba('+(Math.floor(Math.random() * 255) + 1)+','+(Math.floor(Math.random() * 255) + 1)+','+(Math.floor(Math.random() * 255) + 1)+','
+        background.push(color+'0.2)');
+        borderColor.push(color+'1)');
 	}
+    console.log(background)
 	var ctx = document.getElementById("myChart");
 	var myChart = new Chart(ctx, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
         labels: dbfiles,
         datasets: [{
             label: '# of Votes',
             data: num,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
+            backgroundColor: background,
+            borderColor: borderColor,
             borderWidth: 1
         }]
     },
@@ -71,7 +65,7 @@ function setSelect(){
 		title: {
             display: true,
             text: 'DB Files'
-        }
+        },
 	}
 })
 $(document).ready(
