@@ -47,7 +47,7 @@ function setChart(){
     var ctx2 = document.getElementById("myChart2");
 	var getDatas = []
 	
-	for (var i = 0; i < defaultData.length; i++){
+	for (var i = 0; i < columns.length; i++){
 		getDatas[i] = []
 		for (var j = 0; j < labels.length; j++){ 
 			getDatas[i].push(defaultData[j][i])
@@ -231,7 +231,7 @@ dvTable.appendChild(table);
 		<div class="myDiv" id="myDiv"><b>Table: </b></div>
 		<br/><b>________________________________________________________________________________________________________________________________________________ </b><br/><br/>
         <div class='col-sm-12'>
-            <canvas id="myChart2" width="500" height="150"></canvas>
+            <canvas id="myChart2" width="400" height="150"></canvas>
 			<br/><br/><b>TEST SUMMARY </b><br/><br/>
         </div>
 		</form>
@@ -246,6 +246,28 @@ div div div select {
 	background: #ddd;
 	border: 1px solid #ccc;
    }
+#dvTable {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#dvTable td, #dvTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#dvTable tr:nth-child(even){background-color: #f2f2f2;}
+
+#dvTable tr:hover {background-color: #ddd;}
+
+#dvTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
 </style>
 
 <center>

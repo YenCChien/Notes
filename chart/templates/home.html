@@ -44,7 +44,7 @@ function setSelect(){
 		option.text = dbfiles[i];
 		selectList.appendChild(option);
         var color = 'rgba('+(Math.floor(Math.random() * 255) + 1)+','+(Math.floor(Math.random() * 255) + 1)+','+(Math.floor(Math.random() * 255) + 1)+','
-        background.push(color+'0.2)');
+        background.push(color+'0.8)');
         borderColor.push(color+'1)');
 	}
     console.log(background)
@@ -57,8 +57,7 @@ function setSelect(){
             label: '# of Votes',
             data: num,
             backgroundColor: background,
-            borderColor: borderColor,
-            borderWidth: 1
+            borderWidth: 2
         }]
     },
     options: {
