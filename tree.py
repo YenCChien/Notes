@@ -1,6 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
+#Step 1, Create Graph
 class Graph(nx.Graph):
     def __init__(self,n):
         super(Graph, self).__init__()
@@ -8,8 +9,9 @@ class Graph(nx.Graph):
         self.full_tree_pos()
         self.dic = nx.convert.to_dict_of_dicts(self)
         self.color = ['blue']*n
+    #Step 2, Shortest path
     def get_shortest_path(self,start_node_id,end_node_id,path=[]):
-        path = path + [start_node_id]                                                   # record whole tree path
+        path = path + [start_node_id]                                                   # record whole node path
         if start_node_id == end_node_id: return path                                    # final node return path
         if start_node_id not in self.dic.keys() or end_node_id not in self.dic.keys(): 
             return None
@@ -18,11 +20,11 @@ class Graph(nx.Graph):
             if n not in path:
                 newpath = self.get_shortest_path(n, end_node_id, path)                  # keep exploring subtree until last node
                 if newpath:
-                    print(shortlist)
+                    # print(shortlist)
                     if not shortlist or len(newpath) < len(shortlist):                  # record the path once get shorter than before
                         shortlist = newpath
         self.t = shortlist
-        if self.t:                                                                      # give nodes of path green color
+        if self.t:                                                                      # give nodes of path green color for result of shortest path
             for i in self.t: 
                 self.color[i] = 'green'
         return shortlist
@@ -32,19 +34,19 @@ class Graph(nx.Graph):
         self.pos = {0:(0.5,0.9)}
         if n == 1: return self.pos
         i = 1
-        while(True):
+        while True:
             if n >= 2**i and n<2**(i+1):
                 height = i
                 break
             i+=1
-        p_key = 0                                       # as a root for subtree from node 0 to n
+        p_key = 0                                       # node 0 to n
         p_y = 0.9
         p_x = 0.5
         l_child = True
-        for i in range(height):                         # a height for each subtree that should be 2 to the nth
+        for i in range(height):                         # seperate each node and give two edge
             for j in range(2**(i+1)):
                 if 2**(i+1)+j-1 < n:
-                    print(i,j)
+                    # print(2**(i+1),j-1)
                     if l_child == True:
                         self.pos[2**(i+1)+j-1] = (p_x - 0.2/(i*i+1) ,p_y - 0.1)
                         self.add_edge(2**(i+1)+j-1,p_key)
@@ -59,7 +61,29 @@ class Graph(nx.Graph):
         nx.draw(self, pos=self.pos,node_color=self.color, with_labels=True) 
         plt.show()
         self.color = ['blue']*self.number_of_nodes() # reset color
+    def get_subtrees(self,selected_node_ids):
+        q = []
+        for n in selected_node_ids:
+            q.append([s for s in self.edges if n == s[0]])
+        return q
 
-g=Graph(11)
-g.get_shortest_path(0,10)
-# g.show()
+g=Graph(25)
+
+#Step 3, Test
+
+g.get_shortest_path(22,24)
+g.show()
+# [22, 10, 4, 1, 0, 2, 5, 11, 24]
+g.get_shortest_path(0,8)
+g.show()
+# [0, 1, 3, 8]
+g.get_shortest_path(5,23)
+g.show()
+# [5, 11, 23]
+
+
+#Setp 4, get_subtrees, retrun edges of node id
+g.get_subtrees([4,3,20,23])
+#[[(4, 9), (4, 10)], [(3, 7), (3, 8)], [], []]
+g.get_subtrees([10,11,1,9])
+[[(10, 21), (10, 22)], [(11, 23), (11, 24)], [(1, 3), (1, 4)], [(9, 19), (9, 20)]]
