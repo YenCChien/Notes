@@ -83,3 +83,32 @@ g=g=Graph(11)
 g.show()
 ```
 ![image](https://github.com/ty3n/Notes/blob/master/n25.png)
+
+### Step 2,3 Shortest Path & Test
+```python
+g.get_shortest_path(22,24)
+g.show()
+# [22, 10, 4, 1, 0, 2, 5, 11, 24]
+```
+![image](https://github.com/ty3n/Notes/blob/master/s1.png)
+
+```python
+g.get_shortest_path(0,8)
+g.show()
+```
+![image](https://github.com/ty3n/Notes/blob/master/s2.png)
+```python
+g.get_shortest_path(5,23)
+g.show()
+```
+![image](https://github.com/ty3n/Notes/blob/master/s3.png)
+
+### Step 4, get_subtrees retrun edges of node id
+```python
+g.get_subtrees([4,3,20,23])
+#[[(4, 9), (4, 10)], [(3, 7), (3, 8)], [], []]
+```
+```python
+g.get_subtrees([10,11,1,9])
+[[(10, 21), (10, 22)], [(11, 23), (11, 24)], [(1, 3), (1, 4)], [(9, 19), (9, 20)]]
+```
