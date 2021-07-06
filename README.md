@@ -95,11 +95,13 @@ g.show()
 ```python
 g.get_shortest_path(0,8)
 g.show()
+# [0, 1, 3, 8]
 ```
 ![image](https://github.com/ty3n/Notes/blob/master/s2.png)
 ```python
 g.get_shortest_path(5,23)
 g.show()
+# [5, 11, 23]
 ```
 ![image](https://github.com/ty3n/Notes/blob/master/s3.png)
 
