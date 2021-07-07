@@ -74,12 +74,12 @@ class Graph(nx.Graph):
 ```
 
 ```python
-g=g=Graph(11)
+g=Graph(11)
 g.show()
 ```
 ![image](https://github.com/ty3n/Notes/blob/master/n11.png)
 ```python
-g=g=Graph(25)
+g=Graph(25)
 g.show()
 ```
 ![image](https://github.com/ty3n/Notes/blob/master/n25.png)
