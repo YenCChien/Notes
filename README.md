@@ -79,7 +79,7 @@ g.show()
 ```
 ![image](https://github.com/ty3n/Notes/blob/master/n11.png)
 ```python
-g=g=Graph(11)
+g=g=Graph(25)
 g.show()
 ```
 ![image](https://github.com/ty3n/Notes/blob/master/n25.png)
